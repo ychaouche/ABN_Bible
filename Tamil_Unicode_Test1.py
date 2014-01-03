@@ -7,6 +7,12 @@ class TranslationTable(object):
         self.uni_value = Uni
         self.t1_value = t1
 
+    def __str__(self):
+        return self.uni_value.encode("UTF-8")
+
+    def __repr__(self):
+        return repr(self.uni_value)
+
 
 class Tamil(object):  # Unicode Tamil
     om = TranslationTable('OM', u'\u0BD0')
@@ -62,6 +68,6 @@ class Tamil(object):  # Unicode Tamil
             la, lla, llla, va]
 
 tm = Tamil()
-#for i in tm.indep_vowels: print i.uni_value
-#for i in tm.cons: print i.uni_value
-for i in tm.signs: print i.uni_value
+#for i in tm.indep_vowels: print i
+for i in tm.cons: print i
+#for i in tm.signs: print i

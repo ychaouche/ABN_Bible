@@ -23,6 +23,27 @@ with SQliteConnection(Bible_DB) as c:
         eng_bks_long[str(book[2])] = book[0]
         eng_bks_abb1[str(book[1])] = book[0]
 
+def getScripture(id, chapter, verse=None, end=None, bible='kjv'):
+        with SQliteConnection(Bible_DB) as c:
+            if not verse and not end: # No verse and end specified
+                sql = "SELECT verse_id, verse from {0} where book_id={1} and " \
+                      "chapter_id={2};"
+                sql = sql.format(bible, id, chapter)
+                c.execute(sql)
+                return c.fetchall()
+            if verse and not end:
+                sql = "SELECT verse_id, verse from {0} where book_id={1} and " \
+                      "chapter_id={2} and verse_id={3};"
+                sql = sql.format(bible, id, chapter, verse)
+                c.execute(sql)
+                return c.fetchone()
+            if verse and end:
+                sql = "SELECT verse_id, verse from {0} where book_id={1} and " \
+                      "chapter_id={2} and verse_id between {3} and {4};"
+                sql = sql.format(bible, id, chapter, verse, end)
+                c.execute(sql)
+                return c.fetchall()
+
 def find(term, bible='kjv'):
     def getID(book, num=None):
         ids = []
@@ -46,27 +67,6 @@ def find(term, bible='kjv'):
                         ids.append(eng_bks_long[x])
                 return min(ids)
 
-    def getScripture(id, chapter, verse=None, end=None):
-        with SQliteConnection(Bible_DB) as c:
-            if not verse and not end: # No verse and end specified
-                sql = "SELECT verse_id, verse from {0} where book_id={1} and " \
-                      "chapter_id={2};"
-                sql = sql.format(bible, id, chapter)
-                c.execute(sql)
-                return c.fetchall()
-            if verse and not end:
-                sql = "SELECT verse_id, verse from {0} where book_id={1} and " \
-                      "chapter_id={2} and verse_id={3};"
-                sql = sql.format(bible, id, chapter, verse)
-                c.execute(sql)
-                return c.fetchone()
-            if verse and end:
-                sql = "SELECT verse_id, verse from {0} where book_id={1} and " \
-                      "chapter_id={2} and verse_id between {3} and {4};"
-                sql = sql.format(bible, id, chapter, verse, end)
-                c.execute(sql)
-                return c.fetchall()
-
     term_split = bsSplit(term)
     if term_split:  # Check for None
         if term_split[0].startswith(tuple(string.digits)):  # Starts with Digits
@@ -75,20 +75,20 @@ def find(term, bible='kjv'):
                 #print bknum, bk, chap, verse, end
                 bkid = getID(bk, bknum)
                 if bkid:
-                    return getScripture(bkid, chap, verse, end)
+                    return getScripture(bkid, chap, verse, end, bible)
             elif len(term_split) == 4: # Yes Num, No Dash
                 bknum, bk, chap, verse = term_split
                 #print bknum, bk, chap, verse
                 #print getID(bk, bknum)
                 bkid = getID(bk, bknum)
                 if bkid:
-                    return getScripture(bkid, chap, verse)
+                    return getScripture(bkid, chap, verse, bible=bible)
             elif len(term_split) == 3:  # Only Bk, Chap
                 bknum, bk, chap = term_split
                 #print bknum, bk, chap
                 bkid = getID(bk, bknum)
                 if bkid:
-                    return getScripture(bkid, chap)
+                    return getScripture(bkid, chap, bible=bible)
         else:                                               # No Digits
             if len(term_split) == 4:  # No Num, Yes Dash
                 bk, chap, verse, end = term_split
@@ -96,21 +96,21 @@ def find(term, bible='kjv'):
                 #print getID(bk)
                 bkid = getID(bk)
                 if bkid:
-                    return getScripture(bkid, chap, verse, end)
+                    return getScripture(bkid, chap, verse, end, bible)
             elif len(term_split) == 3:  # No Num, No Dash
                 bk, chap, verse = term_split
                 #print bk, chap, verse
                 #print getID(bk)
                 bkid = getID(bk)
                 if bkid:
-                    return getScripture(bkid, chap, verse)
+                    return getScripture(bkid, chap, verse, bible=bible)
             elif len(term_split) == 2:  # Only Bk, Chap
                 bk, chap = term_split
                 #print bk, chap
                 #print getID(bk)
                 bkid = getID(bk)
                 if bkid:
-                    return getScripture(bkid, chap)
+                    return getScripture(bkid, chap, bible=bible)
     else:
         #print "Not Found!"
         return None
@@ -164,4 +164,4 @@ def bsSplit(term):  # Returns None for invalid term
 #-----------Book Chapter Verse
 #print find('gen1:1')
 #-----------Book Chapter Verse Range
-#for i in find('jhn3:15-17'): print i[0], i[1]
+for i in find('jhn3:15-17', 'tamil'): print i[0], i[1]

@@ -67,19 +67,45 @@ class Tamil(object):  # Unicode Tamil
     va = TranslationTable('VA', u'\u0BB5', u'k')
     cons = [ka, nga, ca, ja, nya, tta, nna, ta, na, nnna, pa, ma, ya, ra, rra,
             la, lla, llla, va]
-    sha = TranslationTable('SHA', u'\u0BB6')
+    sha = TranslationTable('SHA', u'\u0BB6')  # No Anu
     ssa = TranslationTable('SSA', u'\u0BB7', u'\u2260')
     sa = TranslationTable('SA', u'\u0BB8', u'v')
     ha = TranslationTable('HA', u'\u0BB9', u'\xab')
-    fancy = [sha, ssa, sa, ha]
+
+    ssa_dot = TranslationTable('ISH', ssa.uni_value+dot.uni_value, u'i')
+    ssa_smhorn = TranslationTable('SHE', ssa.uni_value+smhorn.uni_value,
+                                  u'\xa5')
+    ssa_bghorn = TranslationTable('SHEE', ssa.uni_value+bghorn.uni_value, u'U')
+    ssa_smu = TranslationTable('SHU', ssa.uni_value+smu.uni_value, u'\u25ca')
+    ssa_bguu = TranslationTable('SHU', ssa.uni_value+bguu.uni_value, u'\xa3')
+
+    ssa_fm = [ssa_dot, ssa_smhorn, ssa_bghorn, ssa_smu, ssa_bguu]
+    sa_dot = TranslationTable('IS', sa.uni_value+dot.uni_value, u'\xb8')
+    sa_smhorn = TranslationTable('SHE', sa.uni_value+smhorn.uni_value, u'L')
+    sa_bghorn = TranslationTable('SHEE', sa.uni_value+bghorn.uni_value,
+                                  u'\xa2')
+    sa_smu = TranslationTable('SHU', sa.uni_value+smu.uni_value, u'q')
+    sa_bguu = TranslationTable('SHU', sa.uni_value+bguu.uni_value, u'`')
+
+    sa_fm = [sa_dot, sa_smhorn, sa_bghorn, sa_smu, sa_bguu]
+    ha_dot = TranslationTable('ISH', ha.uni_value+dot.uni_value, u'\u201e')
+    ha_smhorn = TranslationTable('SHE', ha.uni_value+smhorn.uni_value,
+                                  u'N')
+    ha_bghorn = TranslationTable('SHEE', ha.uni_value+bghorn.uni_value, u'\xcd')
+    ha_smu = TranslationTable('SHU', ha.uni_value+smu.uni_value, u'\xaf')
+    ha_bguu = TranslationTable('SHU', ha.uni_value+bguu.uni_value, u'\xe3')
+    ha_fm = [ha_dot, ha_smhorn, ha_bghorn, ha_smu, ha_bguu]
+
+    fancy = [ssa, sa, ha]+ssa_fm+sa_fm+ha_fm
+
 
 tm = Tamil()
 trans = {}
 anu_consDot = unicode("¬∫áÎâ‚ı›Õ[©DFÏu_^µÀ", "UTF-8")
-anu_smhorn = unicode("˛EÉË]WM∏tlˆ§oÑas", "UTF-8")
-anu_bghorn = unicode("ˇÊœßy¿Ã¨*XZS‹C—T", "UTF-8")
-anu_smu = unicode("zà|ÓmO–Ax•ÚÆK”ø°", "UTF-8")
-anu_bguu = unicode("ÌÛ˘I#±˚ØJR‘GŸjÒ∆", "UTF-8")
+anu_smhorn = unicode("˛E˜ÉË]WM∏tlˆ§oÑas", "UTF-8")
+anu_bghorn = unicode("ˇÊäœßy¿Ã¨*XZS‹C—T", "UTF-8")
+anu_smu = unicode("zàh|ÓmO–Ax•ÚÆK”ø°", "UTF-8")
+anu_bguu = unicode("ÌÛ…˘I#±˚ØJR‘GŸjÒ∆", "UTF-8")
 tm_smhorn = []
 tm_bghorn = []
 tm_smu = []
@@ -90,7 +116,6 @@ tm_ai = []
 tm_smo = []
 tm_bgoo = []
 tm_smau = []
-
 
 for x in tm.indep_vowels+tm.cons+tm.fancy:
     trans[x.uni_value] = x.t1_value
@@ -111,22 +136,18 @@ for i, x in enumerate(tm.cons):
     cons_dot = x.uni_value+tm.dot.uni_value
     trans[cons_dot] = anu_consDot[i]
 
-#TODO check and update if AnuFonts support the characters
+#TODO update when Anu spport is available
 tm_smhorn.pop(1)  # ஙி not in Anu
-tm_smhorn.pop(2)  # ஜி not in Anu
-tm_smhorn.pop(2)  # ஞி not in Anu
+tm_smhorn.pop(3)  # ஞி not in Anu
 
 tm_bghorn.pop(1)  # ஙீ not in Anu
-tm_bghorn.pop(2)  # ஜீ not in Anu
-tm_bghorn.pop(2)  # ஞீ not in Anu
+tm_bghorn.pop(3)  # ஞீ not in Anu
 
 tm_smu.pop(1)  # ஙு not in Anu
-tm_smu.pop(2)  # ஜு not in Anu
-tm_smu.pop(2)  # ஞு not in Anu
+tm_smu.pop(3)  # ஞு not in Anu
 
 tm_bguu.pop(1)  # ஙூ not in Anu
-tm_bguu.pop(2)  # ஜூ not in Anu
-tm_bguu.pop(2)  # ஞூ not in Anu
+tm_bguu.pop(3)  # ஞூ not in Anu
 
 for i, x in enumerate(tm_smhorn):
     trans[x] = anu_smhorn[i]

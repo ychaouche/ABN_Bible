@@ -134,7 +134,7 @@ class abn_bible(wx.Frame):
 
     def Translate(self, event):
         for i in Translate(self.results, self.multi):
-            self.rtc_Box2.AppendText(i)
+            self.rtc_Box2.AppendText(i+'\n')
         self.rtc_Box2.Copy()
         event.Skip()
 

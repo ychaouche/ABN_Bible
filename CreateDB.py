@@ -1,7 +1,7 @@
 import sqlite3
 import xml.etree.ElementTree as xml
 
-Project_Location = '/Volumes/Data/PyCharm_Projects/ABN_Bible'
+Project_Location = '/Applications/ABN_Bible'
 Eng_Books_XML = Project_Location + '/bibles/Engilsh_BookNames.xml'
 Bible_DB = Project_Location + '/database/bible.db'
 KJV_Bible_XML = Project_Location + '/bibles/kjv.xml'

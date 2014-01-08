@@ -165,3 +165,4 @@ def bsSplit(term):  # Returns None for invalid term
 #print find('gen1:1')
 #-----------Book Chapter Verse Range
 #for i in find('jhn3:15-17', 'tamil'): print i[0], i[1]
+#print bsSplit('john3:10-16')

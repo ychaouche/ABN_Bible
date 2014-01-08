@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b3d5d670-737f-467a-98d7-02ade54595db" name="Default" comment="Updated Language with translation">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Language.py" afterPath="$PROJECT_DIR$/Language.py" />
+    <list default="true" id="b3d5d670-737f-467a-98d7-02ade54595db" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/GUI.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Translate.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/abn_bible.fbp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CreateDB.py" afterPath="$PROJECT_DIR$/CreateDB.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Database.py" afterPath="$PROJECT_DIR$/Database.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ABN_Bible.iws" />
@@ -29,7 +33,7 @@
       <file leaf-file-name="CreateDB.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CreateDB.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="0" selection-start="2893" selection-end="2893" vertical-scroll-proportion="0.0" vertical-offset="1305" max-vertical-offset="1950">
+            <state line="14" column="0" selection-start="453" selection-end="453" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3225">
               <folding />
             </state>
           </provider>
@@ -38,25 +42,29 @@
       <file leaf-file-name="Database.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Database.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="0" selection-start="70" selection-end="70" vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="2550">
-              <folding />
+            <state line="95" column="17" selection-start="4008" selection-end="4008" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3750">
+              <folding>
+                <element signature="e#1704#2712#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Language.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Language.py">
+      <file leaf-file-name="GUI.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/GUI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="152" column="0" selection-start="6431" selection-end="6431" vertical-scroll-proportion="0.9780347" vertical-offset="6450" max-vertical-offset="8928">
-              <folding />
+            <state line="125" column="8" selection-start="5069" selection-end="5069" vertical-scroll-proportion="4.119318" vertical-offset="0" max-vertical-offset="4495">
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestCase1.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/TestCase1.py">
+      <file leaf-file-name="Translate.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Translate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="0" selection-start="1231" selection-end="1231" vertical-scroll-proportion="0.0" vertical-offset="494" max-vertical-offset="1372">
+            <state line="37" column="43" selection-start="1265" selection-end="1307" vertical-scroll-proportion="0.0" vertical-offset="792" max-vertical-offset="1672">
               <folding>
                 <element signature="e#0#25#0" expanded="true" />
               </folding>
@@ -82,13 +90,15 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/CreateDB.py" />
         <option value="$PROJECT_DIR$/Tamil_Unicode_Test1.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/__versions__.py" />
-        <option value="$PROJECT_DIR$/Database.py" />
         <option value="$PROJECT_DIR$/TestCase1.py" />
         <option value="$PROJECT_DIR$/Language.py" />
+        <option value="$PROJECT_DIR$/Database.py" />
+        <option value="$PROJECT_DIR$/Translate.py" />
+        <option value="$PROJECT_DIR$/GUI.py" />
+        <option value="$PROJECT_DIR$/CreateDB.py" />
       </list>
     </option>
   </component>
@@ -124,7 +134,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -145,24 +154,25 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="options.lastSelected" value="project.scopes" />
     <property name="recentsLimit" value="5" />
-    <property name="restartRequiresConfirmation" value="true" />
+    <property name="options.lastSelected" value="project.scopes" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="restartRequiresConfirmation" value="true" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.TestCase1">
+  <component name="RunManager" selected="Python.GUI">
     <configuration default="false" name="CreateDB" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -217,7 +227,7 @@
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
-    <configuration default="false" name="TestCase1" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="Translate" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -229,7 +239,25 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="ABN_Bible" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TestCase1.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Translate.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="GUI" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="ABN_Bible" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/GUI.py" />
       <option name="PARAMETERS" value="" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
@@ -356,18 +384,20 @@
       <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
-    <list size="4">
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.CreateDB" />
       <item index="1" class="java.lang.String" itemvalue="Python.Language" />
       <item index="2" class="java.lang.String" itemvalue="Python.Database" />
-      <item index="3" class="java.lang.String" itemvalue="Python.TestCase1" />
+      <item index="3" class="java.lang.String" itemvalue="Python.Translate" />
+      <item index="4" class="java.lang.String" itemvalue="Python.GUI" />
     </list>
     <recent_temporary>
-      <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Python.TestCase1" />
-        <item index="1" class="java.lang.String" itemvalue="Python.Language" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Python.GUI" />
+        <item index="1" class="java.lang.String" itemvalue="Python.Translate" />
         <item index="2" class="java.lang.String" itemvalue="Python.Database" />
-        <item index="3" class="java.lang.String" itemvalue="Python.CreateDB" />
+        <item index="3" class="java.lang.String" itemvalue="Python.Language" />
+        <item index="4" class="java.lang.String" itemvalue="Python.CreateDB" />
       </list>
     </recent_temporary>
   </component>
@@ -423,28 +453,32 @@
       <created>1388992891052</created>
       <updated>1388992891052</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Updated Language with translation">
+      <created>1389005952803</created>
+      <updated>1389005952803</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="9" y="22" width="1911" height="1026" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0911017" sideWeight="0.32339954" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.0911017" sideWeight="0.65198237" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.67660046" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34801763" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289183" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -467,17 +501,10 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="3" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Database.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="70" selection-end="70" vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="2595">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Language.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="76" column="27" selection-start="3447" selection-end="3447" vertical-scroll-proportion="0.0" vertical-offset="1140" max-vertical-offset="1230">
@@ -500,7 +527,9 @@
     <entry file="file://$PROJECT_DIR$/Database.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="0" selection-start="70" selection-end="70" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="2595">
-          <folding />
+          <folding>
+            <element signature="e#1704#2712#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -514,7 +543,9 @@
     <entry file="file://$PROJECT_DIR$/Database.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="138" column="21" selection-start="5557" selection-end="5557" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="2595">
-          <folding />
+          <folding>
+            <element signature="e#1704#2712#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -549,33 +580,44 @@
         <state line="3" column="0" selection-start="51" selection-end="51" vertical-scroll-proportion="0.03409091" vertical-offset="0" max-vertical-offset="880" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CreateDB.py">
+    <entry file="file://$PROJECT_DIR$/Language.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="0" selection-start="2893" selection-end="2893" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3096">
+        <state line="179" column="66" selection-start="7191" selection-end="7191" vertical-scroll-proportion="6.7125" vertical-offset="0" max-vertical-offset="6138">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Database.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="70" selection-end="70" vertical-scroll-proportion="0.0" vertical-offset="514" max-vertical-offset="4152">
+        <state line="95" column="17" selection-start="4008" selection-end="4008" vertical-scroll-proportion="0.0" vertical-offset="1611" max-vertical-offset="3750">
+          <folding>
+            <element signature="e#1704#2712#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CreateDB.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="0" selection-start="453" selection-end="453" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3225">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TestCase1.py">
+    <entry file="file://$PROJECT_DIR$/Translate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="0" selection-start="1231" selection-end="1231" vertical-scroll-proportion="0.0" vertical-offset="494" max-vertical-offset="1372">
+        <state line="37" column="43" selection-start="1265" selection-end="1307" vertical-scroll-proportion="0.0" vertical-offset="1108" max-vertical-offset="1672">
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Language.py">
+    <entry file="file://$PROJECT_DIR$/GUI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="152" column="0" selection-start="6431" selection-end="6431" vertical-scroll-proportion="0.9780347" vertical-offset="6450" max-vertical-offset="8928">
-          <folding />
+        <state line="125" column="8" selection-start="5069" selection-end="5069" vertical-scroll-proportion="4.119318" vertical-offset="0" max-vertical-offset="4495">
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

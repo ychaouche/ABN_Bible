@@ -25,14 +25,6 @@ class abn_bible(wx.Frame):
         self.sc.ShowCancelButton(False)
         fgSizer1.Add(self.sc, 1, wx.ALL | wx.EXPAND, 5)
 
-        self.FontPicker = wx.FontPickerCtrl(self, wx.ID_ANY,
-                                            wx.Font(14, 70, 90, 90, False,
-                                                    "Arial"),
-                                            wx.DefaultPosition, wx.DefaultSize,
-                                            wx.FNTP_USE_TEXTCTRL)
-        self.FontPicker.SetMaxPointSize(100)
-        fgSizer1.Add(self.FontPicker, 0, wx.ALL | wx.EXPAND, 5)
-
         bSizer2 = wx.BoxSizer(wx.HORIZONTAL)
 
         cb_BiblesChoices = ['OLD King James Version (English)',
@@ -58,9 +50,28 @@ class abn_bible(wx.Frame):
         self.btn_Translate = wx.Button(self, wx.ID_ANY,
                                        u"Translate into Indica",
                                        wx.DefaultPosition, wx.DefaultSize, 0)
+        self.btn_Translate.Enable(False)
+
         bSizer2.Add(self.btn_Translate, 0, wx.ALL, 5)
 
         fgSizer1.Add(bSizer2, 0, wx.EXPAND, 5)
+
+        bSizer31 = wx.BoxSizer(wx.HORIZONTAL)
+
+        self.FontPicker_src = wx.FontPickerCtrl(self, wx.ID_ANY,
+                                                wx.Font(14, 70, 90, 90, False,
+                                                        "Arial"),
+                                                wx.DefaultPosition,
+                                                wx.DefaultSize,
+                                                wx.FNTP_USE_TEXTCTRL)
+        self.FontPicker_src.SetMaxPointSize(100)
+        bSizer31.Add(self.FontPicker_src, 1, wx.ALL | wx.EXPAND, 5)
+
+        self.btn_Copy_src = wx.Button(self, wx.ID_ANY, u"Copy To Clipboard",
+                                      wx.DefaultPosition, wx.DefaultSize, 0)
+        bSizer31.Add(self.btn_Copy_src, 0, wx.ALL, 5)
+
+        fgSizer1.Add(bSizer31, 1, wx.EXPAND, 5)
 
         bSizer1 = wx.BoxSizer(wx.VERTICAL)
 
@@ -68,25 +79,44 @@ class abn_bible(wx.Frame):
                                                  wx.EmptyString,
                                                  wx.DefaultPosition,
                                                  wx.Size(500, 250),
-                                                 wx.TE_READONLY | wx.VSCROLL
-                                                 | wx.HSCROLL | wx.NO_BORDER
-                                                 | wx.WANTS_CHARS)
+                                                 0 | wx.VSCROLL | wx.HSCROLL
+                                                 | wx.NO_BORDER | wx
+                                                 .WANTS_CHARS)
         bSizer1.Add(self.rtc_Box1, 1, wx.ALL | wx.EXPAND, 5)
 
-        self.btn_Copy = wx.Button(self, wx.ID_ANY, u"Copy To Clipboard",
-                                  wx.DefaultPosition, wx.DefaultSize, 0)
+        bSizer3 = wx.BoxSizer(wx.HORIZONTAL)
 
-        bSizer1.Add(self.btn_Copy, 0, wx.ALL, 5)
+        self.FontPicker_dest = wx.FontPickerCtrl(self, wx.ID_ANY,
+                                                 wx.Font(14, 70, 90, 90, False,
+                                                         "Arial"),
+                                                 wx.DefaultPosition,
+                                                 wx.DefaultSize,
+                                                 wx.FNTP_USE_TEXTCTRL)
+        self.FontPicker_dest.SetMaxPointSize(100)
+        self.FontPicker_dest.Enable(False)
+        self.FontPicker_dest.Hide()
+
+        bSizer3.Add(self.FontPicker_dest, 1, wx.ALL | wx.EXPAND, 5)
+
+        self.btn_Copy_dest = wx.Button(self, wx.ID_ANY,
+                                       u"Copy Translated To Clipboard",
+                                       wx.DefaultPosition, wx.DefaultSize, 0)
+        self.btn_Copy_dest.Enable(False)
+        self.btn_Copy_dest.Hide()
+
+        bSizer3.Add(self.btn_Copy_dest, 0, wx.ALL, 5)
+
+        bSizer1.Add(bSizer3, 0, wx.EXPAND, 5)
 
         self.rtc_Box2 = wx.richtext.RichTextCtrl(self, wx.ID_ANY,
                                                  wx.EmptyString,
                                                  wx.DefaultPosition,
                                                  wx.Size(500, 250),
-                                                 wx.TE_READONLY | \
-                                                 wx.VSCROLL | \
-                                                 wx.HSCROLL | \
-                                                 wx.NO_BORDER | \
-                                                 wx.WANTS_CHARS)
+                                                 0 | wx.VSCROLL | wx.HSCROLL | \
+                                                 wx.NO_BORDER | wx.WANTS_CHARS)
+        self.rtc_Box2.Enable(False)
+        self.rtc_Box2.Hide()
+
         bSizer1.Add(self.rtc_Box2, 1, wx.EXPAND | wx.ALL, 5)
 
         fgSizer1.Add(bSizer1, 1, wx.EXPAND, 5)
@@ -98,9 +128,15 @@ class abn_bible(wx.Frame):
 
         # Connect Events
         self.sc.Bind(wx.EVT_SEARCHCTRL_SEARCH_BTN, self.Search)
-        self.FontPicker.Bind(wx.EVT_FONTPICKER_CHANGED, self.FontChanged)
+        self.cb_Bibles.Bind(wx.EVT_CHOICE, self.BibleSelected)
         self.btn_Translate.Bind(wx.EVT_BUTTON, self.Translate)
-        self.btn_Copy.Bind(wx.EVT_BUTTON, self.Copy)
+        self.FontPicker_src.Bind(wx.EVT_FONTPICKER_CHANGED,
+                                 self.FontChanged_src)
+        self.btn_Copy_src.Bind(wx.EVT_BUTTON, self.Copy_src)
+        self.FontPicker_dest.Bind(wx.EVT_FONTPICKER_CHANGED, self.FontChanged)
+        self.btn_Copy_dest.Bind(wx.EVT_BUTTON, self.Copy)
+
+        #Variables
         self.results = None
         self.multi = True
 
@@ -112,10 +148,6 @@ class abn_bible(wx.Frame):
         self.results = None
         self.rtc_Box1.Clear()
         self.rtc_Box2.Clear()
-
-    def Copy(self, event):
-        self.rtc_Box2.Copy()
-        event.Skip()
 
     # Virtual event handlers, overide them in your derived class
     def Search(self, event):
@@ -166,9 +198,25 @@ class abn_bible(wx.Frame):
                 pass
         event.Skip()
 
-    def FontChanged(self, event):
-        selectedFont = self.FontPicker.GetSelectedFont()
-        self.rtc_Box2.SetFont(selectedFont)
+    def BibleSelected(self, event):
+        if self.sc.GetValue(): self.Search(event)
+        if self.cb_Bibles.GetCurrentSelection() == 1:
+            self.rtc_Box2.Enable(True)
+            self.rtc_Box2.Show()
+            self.btn_Copy_dest.Enable(True)
+            self.btn_Copy_dest.Show()
+            self.FontPicker_dest.Enable(True)
+            self.FontPicker_dest.Show()
+            self.btn_Translate.Enable()
+        else:
+            self.rtc_Box2.Enable(False)
+            self.rtc_Box2.Hide()
+            self.btn_Copy_dest.Enable(False)
+            self.btn_Copy_dest.Hide()
+            self.FontPicker_dest.Enable(False)
+            self.FontPicker_dest.Hide()
+            self.btn_Translate.Disable()
+        self.Layout()
         event.Skip()
 
     def Translate(self, event):
@@ -177,6 +225,29 @@ class abn_bible(wx.Frame):
         self.rtc_Box2.Copy()
         event.Skip()
 
+    def FontChanged_src(self, event):
+        selectedFont = self.FontPicker_src.GetSelectedFont()
+        self.rtc_Box1.SetFont(selectedFont)
+        event.Skip()
+
+    def Copy_src(self, event):
+        if self.rtc_Box1.GetSelection() == (-2, -2):
+            self.rtc_Box1.SelectAll()
+            self.rtc_Box1.Copy()
+        else: self.rtc_Box1.Copy()
+        event.Skip()
+
+    def FontChanged(self, event):
+        selectedFont = self.FontPicker_dest.GetSelectedFont()
+        self.rtc_Box2.SetFont(selectedFont)
+        event.Skip()
+
+    def Copy(self, event):
+        if self.rtc_Box2.GetSelection() == (-2, -2):
+            self.rtc_Box2.SelectAll()
+            self.rtc_Box2.Copy()
+        else: self.rtc_Box2.Copy()
+        event.Skip()
 
 def Main():
     app = wx.App(False)

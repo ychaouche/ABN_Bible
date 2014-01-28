@@ -19,7 +19,7 @@ NIV_Bible_XML = Project_Location + '/bibles/niv.xml'
 NKJV_Bible_XML = Project_Location + '/bibles/nkjv.xml'
 MSG_Bible_XML = Project_Location + '/bibles/msg.xml'
 NLT_Bible_XML = Project_Location + '/bibles/nlt.xml'
-#NRSV_Bible_XML = Project_Location + '/bibles/nrsv.xml'
+NRSV_Bible_XML = Project_Location + '/bibles/nrsv.xml'
 
 
 def GetDBCursor():
@@ -179,7 +179,7 @@ def setupBibleDatabase():
     CreateBible('nkjv', NKJV_Bible_XML, 'book', 'chapter', 'verse', 'name')
     CreateBible('msg', MSG_Bible_XML, 'book', 'chapter', 'verse', 'name')
     CreateBible('nlt', NLT_Bible_XML, 'book', 'chapter', 'verse', 'name')
-    #CreateBible('nrsv', NRSV_Bible_XML, 'book', 'chapter', 'verse', 'name')
+    CreateBible('nrsv', NRSV_Bible_XML, 'book', 'chapter', 'verse', 'name')
 
 if __name__ == '__main__':
     setupBibleDatabase()

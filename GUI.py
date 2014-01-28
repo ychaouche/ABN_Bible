@@ -48,7 +48,8 @@ class abn_bible(wx.Frame):
                             'New International Version (English)',
                             'New King James Version (English)',
                             'The Message Version (English)',
-                            'New Living Translation (English)']
+                            'New Living Translation (English)',
+                            'New Revised Standard Version (English)']
         self.cb_Bibles = wx.Choice(self, wx.ID_ANY, wx.DefaultPosition,
                                    wx.DefaultSize, cb_BiblesChoices, 0)
         self.cb_Bibles.SetSelection(0)
@@ -149,6 +150,8 @@ class abn_bible(wx.Frame):
             self.results = find(search_term, 'msg')
         elif choice == 13:
             self.results = find(search_term, 'nlt')
+        elif choice == 14:
+            self.results = find(search_term, 'nrsv')
         if '-' in search_term:
             self.multi = True
             if self.results:

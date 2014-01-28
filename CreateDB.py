@@ -12,14 +12,13 @@ UKJV_Bible_XML = Project_Location + '/bibles/ukjv.xml'
 ASV_Bible_XML = Project_Location + '/bibles/asv.xml'
 DARBY_Bible_XML = Project_Location + '/bibles/darby.xml'
 AMP_Bible_XML = Project_Location + '/bibles/amp.xml'
-#NSB_Bible_XML = Project_Location + '/bibles/nsb.xml'
 CEV_Bible_XML = Project_Location + '/bibles/cev.xml'
 ESV_Bible_XML = Project_Location + '/bibles/esv.xml'
-#MSG_Bible_XML = Project_Location + '/bibles/msg.xml'
 NASB_Bible_XML = Project_Location + '/bibles/nasb.xml'
 NIV_Bible_XML = Project_Location + '/bibles/niv.xml'
-#NKJV_Bible_XML = Project_Location + '/bibles/nkjv.xml'
-#NLT_Bible_XML = Project_Location + '/bibles/nlt.xml'
+NKJV_Bible_XML = Project_Location + '/bibles/nkjv.xml'
+MSG_Bible_XML = Project_Location + '/bibles/msg.xml'
+NLT_Bible_XML = Project_Location + '/bibles/nlt.xml'
 #NRSV_Bible_XML = Project_Location + '/bibles/nrsv.xml'
 
 
@@ -148,6 +147,7 @@ def CreateBible(bibleName, xmlPath, book='b', chapter='c', verse='v', name='n'):
             for Verse in Verses:
                 try:
                     Vno = int(Verse.get(name))
+                    #print bibleName, Bname, Cno, Vno
                     sql = "INSERT INTO {4} (book_id, chapter_id, verse_id, verse) "\
                       """VALUES ({0}, {1}, {2}, "{3}");""".format(i+1, Cno, Vno,
                                                                   escapeString(Verse.text),
@@ -172,14 +172,13 @@ def setupBibleDatabase():
     CreateBible('asv', ASV_Bible_XML)
     CreateBible('darby', DARBY_Bible_XML)
     CreateBible('amp', AMP_Bible_XML, 'book', 'chapter', 'verse', 'name')
-    #CreateBible('nsb', NSB_Bible_XML)
     CreateBible('cev', CEV_Bible_XML, 'book', 'chapter', 'verse', 'name')
     CreateBible('esv', ESV_Bible_XML, 'book', 'chapter', 'verse', 'name')
-    #CreateBible('msg', MSG_Bible_XML, 'book', 'chapter', 'verse', 'name')
     CreateBible('nasb', NASB_Bible_XML, 'book', 'chapter', 'verse', 'name')
     CreateBible('niv', NIV_Bible_XML, 'book', 'chapter', 'verse', 'name')
-    #CreateBible('nkjv', NKJV_Bible_XML, 'book', 'chapter', 'verse', 'name')
-    #CreateBible('nlt', NLT_Bible_XML, 'book', 'chapter', 'verse', 'name')
+    CreateBible('nkjv', NKJV_Bible_XML, 'book', 'chapter', 'verse', 'name')
+    CreateBible('msg', MSG_Bible_XML, 'book', 'chapter', 'verse', 'name')
+    CreateBible('nlt', NLT_Bible_XML, 'book', 'chapter', 'verse', 'name')
     #CreateBible('nrsv', NRSV_Bible_XML, 'book', 'chapter', 'verse', 'name')
 
 if __name__ == '__main__':

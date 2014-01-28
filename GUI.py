@@ -36,7 +36,16 @@ class abn_bible(wx.Frame):
         bSizer2 = wx.BoxSizer(wx.HORIZONTAL)
 
         cb_BiblesChoices = ['OLD King James Version (English)',
-                            'Bible Society of India (Tamil)']
+                            'Bible Society of India (Tamil)',
+                            'American King James Version (English)',
+                            'Updated King James Version (English)',
+                            'American Standard Version (English)',
+                            'Darby Version (English)',
+                            'Amplified Version (English)',
+                            'Contemporary English Version',
+                            'English Standard Version',
+                            'New American Standard Version (English)',
+                            'New International Version (English)']
         self.cb_Bibles = wx.Choice(self, wx.ID_ANY, wx.DefaultPosition,
                                    wx.DefaultSize, cb_BiblesChoices, 0)
         self.cb_Bibles.SetSelection(0)
@@ -113,6 +122,24 @@ class abn_bible(wx.Frame):
             self.results = find(search_term, 'kjv')
         elif choice == 1:
             self.results = find(search_term, 'tamil')
+        elif choice == 2:
+            self.results = find(search_term, 'akjv')
+        elif choice == 3:
+            self.results = find(search_term, 'ukjv')
+        elif choice == 4:
+            self.results = find(search_term, 'asv')
+        elif choice == 5:
+            self.results = find(search_term, 'darby')
+        elif choice == 6:
+            self.results = find(search_term, 'amp')
+        elif choice == 7:
+            self.results = find(search_term, 'cev')
+        elif choice == 8:
+            self.results = find(search_term, 'esv')
+        elif choice == 9:
+            self.results = find(search_term, 'nasb')
+        elif choice == 10:
+            self.results = find(search_term, 'niv')
         if '-' in search_term:
             self.multi = True
             if self.results:

@@ -1,11 +1,26 @@
 import sqlite3
 import xml.etree.ElementTree as xml
+from string import replace
 
-Project_Location = '/Applications/ABN_Bible'
+Project_Location = '/Volumes/Data/PyCharm_Projects/ABN_Bible'
 Eng_Books_XML = Project_Location + '/bibles/Engilsh_BookNames.xml'
 Bible_DB = Project_Location + '/database/bible.db'
 KJV_Bible_XML = Project_Location + '/bibles/kjv.xml'
 BSI_Tm_Bible_XML = Project_Location + '/bibles/tamil.xml'
+AKJV_Bible_XML = Project_Location + '/bibles/akjv.xml'
+UKJV_Bible_XML = Project_Location + '/bibles/ukjv.xml'
+ASV_Bible_XML = Project_Location + '/bibles/asv.xml'
+DARBY_Bible_XML = Project_Location + '/bibles/darby.xml'
+AMP_Bible_XML = Project_Location + '/bibles/amp.xml'
+#NSB_Bible_XML = Project_Location + '/bibles/nsb.xml'
+CEV_Bible_XML = Project_Location + '/bibles/cev.xml'
+ESV_Bible_XML = Project_Location + '/bibles/esv.xml'
+#MSG_Bible_XML = Project_Location + '/bibles/msg.xml'
+NASB_Bible_XML = Project_Location + '/bibles/nasb.xml'
+NIV_Bible_XML = Project_Location + '/bibles/niv.xml'
+#NKJV_Bible_XML = Project_Location + '/bibles/nkjv.xml'
+#NLT_Bible_XML = Project_Location + '/bibles/nlt.xml'
+#NRSV_Bible_XML = Project_Location + '/bibles/nrsv.xml'
 
 
 def GetDBCursor():
@@ -101,7 +116,7 @@ def CreateBSI_Tm():
         for Chapter in Chapters:
             Verses = list(Chapter.iter("v"))
             Cno = int(Chapter.get('cnumber'))
-            print Bname, Cno
+            #print Bname, Cno
             for Verse in Verses:
                 Vno = int(Verse.get('vnumber'))
                 sql = "INSERT INTO tamil (book_id, chapter_id, verse_id, " \
@@ -113,13 +128,59 @@ def CreateBSI_Tm():
     cursor.close()
     del tree
 
+def escapeString(verse):
+    return replace(verse, '"', '""')
+
+def CreateBible(bibleName, xmlPath, book='b', chapter='c', verse='v', name='n'):
+    connection, cursor = GetDBCursor()
+    tree = xml.parse(xmlPath)
+    KJV_Books = list(tree.iter(book))
+    cursor.execute("DROP TABLE IF EXISTS {0};".format(bibleName))
+    cursor.execute("CREATE TABLE {0} (book_id INTEGER, chapter_id INTEGER, "
+                   "verse_id INTEGER, verse TEXT)".format(bibleName))
+    for i, Book in enumerate(KJV_Books):
+        Chapters = list(Book.iter(chapter))
+        Bname = Book.get(name)
+        for Chapter in Chapters:
+            Verses = list(Chapter.iter(verse))
+            Cno = int(Chapter.get(name))
+            #print Bname, Cno
+            for Verse in Verses:
+                try:
+                    Vno = int(Verse.get(name))
+                    sql = "INSERT INTO {4} (book_id, chapter_id, verse_id, verse) "\
+                      """VALUES ({0}, {1}, {2}, "{3}");""".format(i+1, Cno, Vno,
+                                                                  escapeString(Verse.text),
+                                                                  bibleName)
+                    cursor.execute(sql)
+                except Exception as e:
+                    print e
+                    print bibleName, Bname, Cno, Vno, Verse.text, type(Verse.text)
+                    print escapeString(Verse.text)
+    connection.commit()
+    cursor.close()
+    del tree
 
 def setupBibleDatabase():
     CreateBooksTable()
     InsertEngBooks()
     AddTamilBooks()
-    CreateKJV()
+    CreateBible('kjv', KJV_Bible_XML)
     CreateBSI_Tm()
+    CreateBible('akjv', AKJV_Bible_XML)
+    CreateBible('ukjv', UKJV_Bible_XML)
+    CreateBible('asv', ASV_Bible_XML)
+    CreateBible('darby', DARBY_Bible_XML)
+    CreateBible('amp', AMP_Bible_XML, 'book', 'chapter', 'verse', 'name')
+    #CreateBible('nsb', NSB_Bible_XML)
+    CreateBible('cev', CEV_Bible_XML, 'book', 'chapter', 'verse', 'name')
+    CreateBible('esv', ESV_Bible_XML, 'book', 'chapter', 'verse', 'name')
+    #CreateBible('msg', MSG_Bible_XML, 'book', 'chapter', 'verse', 'name')
+    CreateBible('nasb', NASB_Bible_XML, 'book', 'chapter', 'verse', 'name')
+    CreateBible('niv', NIV_Bible_XML, 'book', 'chapter', 'verse', 'name')
+    #CreateBible('nkjv', NKJV_Bible_XML, 'book', 'chapter', 'verse', 'name')
+    #CreateBible('nlt', NLT_Bible_XML, 'book', 'chapter', 'verse', 'name')
+    #CreateBible('nrsv', NRSV_Bible_XML, 'book', 'chapter', 'verse', 'name')
 
 if __name__ == '__main__':
     setupBibleDatabase()

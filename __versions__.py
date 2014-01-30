@@ -3,7 +3,7 @@ import sys
 
 
 SERIES = 'RatSel'
-VERSION = (0, 2, 0, 'rc1')
+VERSION = (0, 2, 1, 'rc1')
 __version__ = '.'.join(str(p) for p in VERSION[0:3]) + ''.join(VERSION[3:])
 __author__ = 'Kumaran S/O Murugun'
 __contact__ = 'atv.kumar@gmail.com'

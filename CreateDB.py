@@ -2,6 +2,7 @@ import sqlite3
 import xml.etree.ElementTree as xml
 from string import replace
 
+#Project_Location = '/Applications/ABN_Bible'
 Project_Location = '/Volumes/Data/PyCharm_Projects/ABN_Bible'
 Eng_Books_XML = Project_Location + '/bibles/Engilsh_BookNames.xml'
 Bible_DB = Project_Location + '/database/bible.db'
@@ -20,6 +21,11 @@ NKJV_Bible_XML = Project_Location + '/bibles/nkjv.xml'
 MSG_Bible_XML = Project_Location + '/bibles/msg.xml'
 NLT_Bible_XML = Project_Location + '/bibles/nlt.xml'
 NRSV_Bible_XML = Project_Location + '/bibles/nrsv.xml'
+CH_NCVS_XML = Project_Location + '/bibles/ncv_simplified.xml'
+CH_NCVT_XML = Project_Location + '/bibles/ncv_trad.xml'
+ARABIC_XML = Project_Location + '/bibles/arabic.xml'
+PERSIAN_XML = Project_Location + '/bibles/persian.xml'
+DARI_XML = Project_Location + '/bibles/dari.xml'
 
 
 def GetDBCursor():
@@ -59,22 +65,25 @@ def InsertEngBooks():  # English Insert Rest Update
     cursor.close()
 
 
-def GetTmBooks():
-    tree = xml.parse(BSI_Tm_Bible_XML)
-    Tm_Books = list(tree.find('booknames').text.split(','))
+def GetBooks(xmlFile, bookname):
+    tree = xml.parse(xmlFile)
+    Tm_Books = list(tree.find(bookname).text.split(','))
     del tree
+    Tm_Books = [i.strip().replace('"','') if '"' in i else i for i in Tm_Books]
     return Tm_Books
 
 
-def AddTamilBooks():
+def AddBooks(xmlFile, language, bookname='booknames', alter=False):
     connection, cursor = GetDBCursor()
-    for i, val in enumerate(GetTmBooks()):
-        sql = "UPDATE books SET tm_short='".encode("UTF-8")
+    if alter:
+        sql = 'ALTER TABLE books ADD COLUMN {0}'.format(language)
+        cursor.execute(sql)
+    for i, val in enumerate(GetBooks(xmlFile, bookname)):
+        sql = "UPDATE books SET {0}='".format(language).encode("UTF-8")
         sql = sql + val + "' WHERE id={0};".format(i + 1).encode("UTF-8")
         cursor.execute(sql)
     connection.commit()
     cursor.close()
-
 
 def CreateKJV():
     connection, cursor = GetDBCursor()
@@ -127,10 +136,52 @@ def CreateBSI_Tm():
     cursor.close()
     del tree
 
-def escapeString(verse):
-    return replace(verse, '"', '""')
+def CreateBible_Unicode(language, bible, book="b", chapter="c", verse="v",
+                        bname='n', cname='n', vname='n', escape=False):
+    connection, cursor = GetDBCursor()
+    tree = xml.parse(bible)
+    cursor.execute("DROP TABLE IF EXISTS {0};".format(language))
+    cursor.execute("CREATE TABLE {0} (book_id INTEGER, chapter_id INTEGER, "
+                   "verse_id INTEGER, verse TEXT)".format(language))
+    Books = list(tree.iter(book))
+    for i, Book in enumerate(Books):
+        Chapters = list(Book.iter(chapter))
+        Bnumber = i+1
+        cursor.execute("SELECT eng_short from books where id={0}".format(Bnumber))
+        Bname = cursor.fetchone()[0]
+        for Chapter in Chapters:
+            Verses = list(Chapter.iter(verse))
+            Cno = int(Chapter.get(cname))
+            #print Bnumber, Cno
+            for Verse in Verses:
+                #print Verse.text
+                Vno = int(Verse.get(vname))
+                #print Bname, str(Cno)+':'+str(Vno)
+                if escape:
+                    vtext = escapeString(Verse.text)
+                else:
+                    vtext = Verse.text
+                sql = "INSERT INTO {0} (book_id, chapter_id, verse_id, ".format(language)
+                sql = sql + "verse) VALUES ({0}, {1}, {2}, '"
+                sql = sql.format(Bnumber, Cno, Vno).encode("UTF-8")
+                sql = sql + vtext + "');".encode("UTF-8")
+                try:
+                    cursor.execute(sql)
+                except:
+                    print sql
+    connection.commit()
+    cursor.close()
+    del tree
 
-def CreateBible(bibleName, xmlPath, book='b', chapter='c', verse='v', name='n'):
+def escapeString(verse):
+    if '"' in verse:
+        return replace(verse, '"', '""')
+    elif "'" in verse:
+        return replace(verse, "'", "''")
+    else: return verse
+
+def CreateBible(bibleName, xmlPath, book='b', chapter='c', verse='v', bname='n',
+                cname='n', vname='n'):
     connection, cursor = GetDBCursor()
     tree = xml.parse(xmlPath)
     KJV_Books = list(tree.iter(book))
@@ -139,14 +190,14 @@ def CreateBible(bibleName, xmlPath, book='b', chapter='c', verse='v', name='n'):
                    "verse_id INTEGER, verse TEXT)".format(bibleName))
     for i, Book in enumerate(KJV_Books):
         Chapters = list(Book.iter(chapter))
-        Bname = Book.get(name)
+        Bname = Book.get(bname)
         for Chapter in Chapters:
             Verses = list(Chapter.iter(verse))
-            Cno = int(Chapter.get(name))
+            Cno = int(Chapter.get(cname))
             #print Bname, Cno
             for Verse in Verses:
                 try:
-                    Vno = int(Verse.get(name))
+                    Vno = int(Verse.get(vname))
                     #print bibleName, Bname, Cno, Vno
                     sql = "INSERT INTO {4} (book_id, chapter_id, verse_id, verse) "\
                       """VALUES ({0}, {1}, {2}, "{3}");""".format(i+1, Cno, Vno,
@@ -164,22 +215,32 @@ def CreateBible(bibleName, xmlPath, book='b', chapter='c', verse='v', name='n'):
 def setupBibleDatabase():
     CreateBooksTable()
     InsertEngBooks()
-    AddTamilBooks()
     CreateBible('kjv', KJV_Bible_XML)
-    CreateBSI_Tm()
+    AddBooks(BSI_Tm_Bible_XML, 'tm_short')
+    CreateBible_Unicode('tamil', BSI_Tm_Bible_XML, bname='bnumber',
+                        cname='cnumber', vname='vnumber')
     CreateBible('akjv', AKJV_Bible_XML)
     CreateBible('ukjv', UKJV_Bible_XML)
     CreateBible('asv', ASV_Bible_XML)
     CreateBible('darby', DARBY_Bible_XML)
-    CreateBible('amp', AMP_Bible_XML, 'book', 'chapter', 'verse', 'name')
-    CreateBible('cev', CEV_Bible_XML, 'book', 'chapter', 'verse', 'name')
-    CreateBible('esv', ESV_Bible_XML, 'book', 'chapter', 'verse', 'name')
-    CreateBible('nasb', NASB_Bible_XML, 'book', 'chapter', 'verse', 'name')
-    CreateBible('niv', NIV_Bible_XML, 'book', 'chapter', 'verse', 'name')
-    CreateBible('nkjv', NKJV_Bible_XML, 'book', 'chapter', 'verse', 'name')
-    CreateBible('msg', MSG_Bible_XML, 'book', 'chapter', 'verse', 'name')
-    CreateBible('nlt', NLT_Bible_XML, 'book', 'chapter', 'verse', 'name')
-    CreateBible('nrsv', NRSV_Bible_XML, 'book', 'chapter', 'verse', 'name')
+    CreateBible('amp', AMP_Bible_XML, 'book', 'chapter', 'verse', 'name', 'name', 'name')
+    #CreateBible('cev', CEV_Bible_XML, 'book', 'chapter', 'verse', 'name', 'name', 'name')
+    CreateBible('esv', ESV_Bible_XML, 'book', 'chapter', 'verse', 'name', 'name', 'name')
+    CreateBible('nasb', NASB_Bible_XML, 'book', 'chapter', 'verse', 'name', 'name', 'name')
+    CreateBible('niv', NIV_Bible_XML, 'book', 'chapter', 'verse', 'name', 'name', 'name')
+    CreateBible('nkjv', NKJV_Bible_XML, 'book', 'chapter', 'verse', 'name', 'name', 'name')
+    CreateBible('msg', MSG_Bible_XML, 'book', 'chapter', 'verse', 'name', 'name', 'name')
+    CreateBible('nlt', NLT_Bible_XML, 'book', 'chapter', 'verse', 'name', 'name', 'name')
+    CreateBible('nrsv', NRSV_Bible_XML, 'book', 'chapter', 'verse', 'name', 'name', 'name')
+    AddBooks(CH_NCVS_XML,'ch_ncvs', alter=True)
+    CreateBible_Unicode('ch_ncvs', CH_NCVS_XML)
+    AddBooks(CH_NCVT_XML,'ch_ncvt', alter=True)
+    CreateBible_Unicode('ch_ncvt', CH_NCVT_XML)
+    AddBooks(ARABIC_XML,'arabic', alter=True)
+    CreateBible_Unicode('arabic', ARABIC_XML, bname='bnumber', cname='cnumber',
+                        vname='vnumber')
+    CreateBible_Unicode('persian', PERSIAN_XML, escape=True)
+    CreateBible_Unicode('dari', DARI_XML, escape=True)
 
 if __name__ == '__main__':
     setupBibleDatabase()

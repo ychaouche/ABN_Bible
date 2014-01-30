@@ -7,7 +7,7 @@ from Database import find
 class abn_bible(wx.Frame):
     def __init__(self, parent):
         wx.Frame.__init__(self, parent, id=wx.ID_ANY,
-                          title=u"Angel Broadcasting Network Bible",
+                          title=u"Angel Broadcasting Network Bible 0.2rc1",
                           pos=wx.DefaultPosition, size=wx.Size(600, 800),
                           style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
 
@@ -34,14 +34,18 @@ class abn_bible(wx.Frame):
                             'American Standard Version (English)',
                             'Darby Version (English)',
                             'Amplified Version (English)',
-                            'Contemporary English Version',
                             'English Standard Version',
                             'New American Standard Version (English)',
                             'New International Version (English)',
                             'New King James Version (English)',
                             'The Message Version (English)',
                             'New Living Translation (English)',
-                            'New Revised Standard Version (English)']
+                            'New Revised Standard Version (English)',
+                            'Chinese New Version (Simplified)',
+                            'Chinese New Version (Traditional)',
+                            'Arabic',
+                            'Persian',
+                            'Dari (Persian)']
         self.cb_Bibles = wx.Choice(self, wx.ID_ANY, wx.DefaultPosition,
                                    wx.DefaultSize, cb_BiblesChoices, 0)
         self.cb_Bibles.SetSelection(0)
@@ -169,21 +173,29 @@ class abn_bible(wx.Frame):
         elif choice == 6:
             self.results = find(search_term, 'amp')
         elif choice == 7:
-            self.results = find(search_term, 'cev')
-        elif choice == 8:
             self.results = find(search_term, 'esv')
-        elif choice == 9:
+        elif choice == 8:
             self.results = find(search_term, 'nasb')
-        elif choice == 10:
+        elif choice == 9:
             self.results = find(search_term, 'niv')
-        elif choice == 11:
+        elif choice == 10:
             self.results = find(search_term, 'nkjv')
-        elif choice == 12:
+        elif choice == 11:
             self.results = find(search_term, 'msg')
-        elif choice == 13:
+        elif choice == 12:
             self.results = find(search_term, 'nlt')
-        elif choice == 14:
+        elif choice == 13:
             self.results = find(search_term, 'nrsv')
+        elif choice == 14:
+            self.results = find(search_term, 'ch_ncvs')
+        elif choice == 15:
+            self.results = find(search_term, 'ch_ncvt')
+        elif choice == 16:
+            self.results = find(search_term, 'arabic')
+        elif choice == 17:
+            self.results = find(search_term, 'persian')
+        elif choice == 18:
+            self.results = find(search_term, 'dari')
         if '-' in search_term:
             self.multi = True
             if self.results:

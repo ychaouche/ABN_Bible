@@ -28,7 +28,8 @@ PERSIAN_XML = Project_Location + '/bibles/persian.xml'
 DARI_XML = Project_Location + '/bibles/dari.xml'
 RUSSIAN_XML = Project_Location + '/bibles/russian.xml'
 RUSSIAN_SYN_XML = Project_Location + '/bibles/rus_synodal.xml'
-
+PORTUGUESE_XML = Project_Location + '/bibles/portuguese.xml'
+SPANISH_LBLA_XML = Project_Location + '/bibles/spanish_lbla.xml'
 
 def GetDBCursor():
     connection = sqlite3.connect(Bible_DB)
@@ -74,6 +75,13 @@ def GetBooks(xmlFile, bookname):
     Tm_Books = [i.strip().replace('"','') if '"' in i else i for i in Tm_Books]
     return Tm_Books
 
+def GetBooks_FromTree(xmlFile, bookname):
+    result = []
+    tree = xml.parse(xmlFile)
+    Books = list(tree.iter(bookname))
+    for book in Books:
+        result.append(book.get('n'))
+    return result
 
 def AddBooks(xmlFile, language, bookname='booknames', alter=False):
     connection, cursor = GetDBCursor()
@@ -81,6 +89,18 @@ def AddBooks(xmlFile, language, bookname='booknames', alter=False):
         sql = 'ALTER TABLE books ADD COLUMN {0}'.format(language)
         cursor.execute(sql)
     for i, val in enumerate(GetBooks(xmlFile, bookname)):
+        sql = "UPDATE books SET {0}='".format(language).encode("UTF-8")
+        sql = sql + val + "' WHERE id={0};".format(i + 1).encode("UTF-8")
+        cursor.execute(sql)
+    connection.commit()
+    cursor.close()
+
+def AddBooks_FromTree(xmlFile, language, bookname='booknames', alter=False):
+    connection, cursor = GetDBCursor()
+    if alter:
+        sql = 'ALTER TABLE books ADD COLUMN {0}'.format(language)
+        cursor.execute(sql)
+    for i, val in enumerate(GetBooks_FromTree(xmlFile, bookname)):
         sql = "UPDATE books SET {0}='".format(language).encode("UTF-8")
         sql = sql + val + "' WHERE id={0};".format(i + 1).encode("UTF-8")
         cursor.execute(sql)
@@ -139,7 +159,8 @@ def CreateBSI_Tm():
     del tree
 
 def CreateBible_Unicode(language, bible, book="b", chapter="c", verse="v",
-                        bname='n', cname='n', vname='n', escape=False):
+                        bname='n', cname='n', vname='n', escape=False,
+                        doubleQuotes=False):
     connection, cursor = GetDBCursor()
     tree = xml.parse(bible)
     cursor.execute("DROP TABLE IF EXISTS {0};".format(language))
@@ -164,12 +185,19 @@ def CreateBible_Unicode(language, bible, book="b", chapter="c", verse="v",
                 else:
                     vtext = Verse.text
                 sql = "INSERT INTO {0} (book_id, chapter_id, verse_id, ".format(language)
-                sql = sql + "verse) VALUES ({0}, {1}, {2}, '"
+                if doubleQuotes:
+                    sql = sql + "verse) VALUES ({0}, {1}, {2}, \""
+                else:
+                    sql = sql + "verse) VALUES ({0}, {1}, {2}, '"
                 sql = sql.format(Bnumber, Cno, Vno).encode("UTF-8")
-                sql = sql + vtext + "');".encode("UTF-8")
+                if doubleQuotes:
+                    sql = sql + vtext + "\");".encode("UTF-8")
+                else:
+                    sql = sql + vtext + "');".encode("UTF-8")
                 try:
                     cursor.execute(sql)
-                except:
+                except Exception as e:
+                    print e
                     print sql
     connection.commit()
     cursor.close()
@@ -248,6 +276,11 @@ def setupBibleDatabase():
     # AddBooks(RUSSIAN_SYN_XML,'rus_synodal', alter=True)  #  -- Duplicate Rus
     CreateBible_Unicode('rus_synodal', RUSSIAN_SYN_XML, bname='bnumber',
                         cname='cnumber', vname='vnumber')
+    AddBooks_FromTree(PORTUGUESE_XML,'portuguese', 'b', alter=True)
+    CreateBible_Unicode('portuguese', PORTUGUESE_XML, escape=True)
+    AddBooks(SPANISH_LBLA_XML,'spanish_lbla', alter=True)
+    CreateBible_Unicode('spanish_lbla', SPANISH_LBLA_XML, escape=True,
+                        doubleQuotes=True)
 
 if __name__ == '__main__':
     setupBibleDatabase()

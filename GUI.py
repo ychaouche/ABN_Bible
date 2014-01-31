@@ -7,7 +7,7 @@ from Database import find
 class abn_bible(wx.Frame):
     def __init__(self, parent):
         wx.Frame.__init__(self, parent, id=wx.ID_ANY,
-                          title=u"Angel Broadcasting Network Bible 0.2.1rc1",
+                          title=u"Angel Broadcasting Network Bible 0.2.3rc1",
                           pos=wx.DefaultPosition, size=wx.Size(600, 800),
                           style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
 
@@ -45,7 +45,11 @@ class abn_bible(wx.Frame):
                             'Chinese New Version (Traditional)',
                             'Arabic',
                             'Persian',
-                            'Dari (Persian)']
+                            'Dari (Persian)',
+                            'Russian',
+                            'Russian Synodal Version',
+                            'Portuguese',
+                            'La Biblia de las Americas (Spanish)']
         self.cb_Bibles = wx.Choice(self, wx.ID_ANY, wx.DefaultPosition,
                                    wx.DefaultSize, cb_BiblesChoices, 0)
         self.cb_Bibles.SetSelection(0)
@@ -196,6 +200,14 @@ class abn_bible(wx.Frame):
             self.results = find(search_term, 'persian')
         elif choice == 18:
             self.results = find(search_term, 'dari')
+        elif choice == 19:
+            self.results = find(search_term, 'russian')
+        elif choice == 20:
+            self.results = find(search_term, 'rus_synodal')
+        elif choice == 21:
+            self.results = find(search_term, 'portuguese')
+        elif choice == 22:
+            self.results = find(search_term, 'spanish_lbla')
         if '-' in search_term:
             self.multi = True
             if self.results:

@@ -2,8 +2,8 @@ import sqlite3
 import xml.etree.ElementTree as xml
 from string import replace
 
-Project_Location = '/Applications/ABN_Bible'
-#Project_Location = '/Volumes/Data/PyCharm_Projects/ABN_Bible'
+#Project_Location = '/Applications/ABN_Bible'
+Project_Location = '/Volumes/Data/PyCharm_Projects/ABN_Bible'
 Eng_Books_XML = Project_Location + '/bibles/Engilsh_BookNames.xml'
 Bible_DB = Project_Location + '/database/bible.db'
 KJV_Bible_XML = Project_Location + '/bibles/kjv.xml'
@@ -26,6 +26,8 @@ CH_NCVT_XML = Project_Location + '/bibles/ncv_trad.xml'
 ARABIC_XML = Project_Location + '/bibles/arabic.xml'
 PERSIAN_XML = Project_Location + '/bibles/persian.xml'
 DARI_XML = Project_Location + '/bibles/dari.xml'
+RUSSIAN_XML = Project_Location + '/bibles/russian.xml'
+RUSSIAN_SYN_XML = Project_Location + '/bibles/rus_synodal.xml'
 
 
 def GetDBCursor():
@@ -241,6 +243,11 @@ def setupBibleDatabase():
                         vname='vnumber')
     CreateBible_Unicode('persian', PERSIAN_XML, escape=True)
     CreateBible_Unicode('dari', DARI_XML, escape=True)
+    AddBooks(RUSSIAN_XML,'russian', alter=True)
+    CreateBible_Unicode('russian', RUSSIAN_XML)
+    # AddBooks(RUSSIAN_SYN_XML,'rus_synodal', alter=True)  #  -- Duplicate Rus
+    CreateBible_Unicode('rus_synodal', RUSSIAN_SYN_XML, bname='bnumber',
+                        cname='cnumber', vname='vnumber')
 
 if __name__ == '__main__':
     setupBibleDatabase()

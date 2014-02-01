@@ -217,6 +217,7 @@ def escapeString2(verse, escape='double'):
     if escape == 'single':
         if "'" in verse:
             return replace(verse, "'", "''")
+        else: return verse
     elif escape == 'double':
         if '"' in verse:
             return replace(verse, '"', '""')

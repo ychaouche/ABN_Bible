@@ -30,6 +30,14 @@ RUSSIAN_XML = Project_Location + '/bibles/russian.xml'
 RUSSIAN_SYN_XML = Project_Location + '/bibles/rus_synodal.xml'
 PORTUGUESE_XML = Project_Location + '/bibles/portuguese.xml'
 SPANISH_LBLA_XML = Project_Location + '/bibles/spanish_lbla.xml'
+SPANISH_REINA_XML = Project_Location + '/bibles/spanish_reina.xml'
+SPANISH_1909_XML = Project_Location + '/bibles/spanish1909.xml'
+AFRICAN_AMHARIC_XML = Project_Location + '/bibles/african_amharic.xml'
+AFRICAN_SOHANA_XML = Project_Location + '/bibles/african_sohana.xml'
+AFRICAN_NDEBELE_XML = Project_Location + '/bibles/african_ndebele.xml'
+FRENCH_LSG_XML = Project_Location + '/bibles/french_lsg.xml'
+FRENCH_DARBY_XML = Project_Location + '/bibles/french_darby.xml'
+
 
 def GetDBCursor():
     connection = sqlite3.connect(Bible_DB)
@@ -160,7 +168,7 @@ def CreateBSI_Tm():
 
 def CreateBible_Unicode(language, bible, book="b", chapter="c", verse="v",
                         bname='n', cname='n', vname='n', escape=False,
-                        doubleQuotes=False):
+                        doubleQuotes=False, emptyVerse=False):
     connection, cursor = GetDBCursor()
     tree = xml.parse(bible)
     cursor.execute("DROP TABLE IF EXISTS {0};".format(language))
@@ -184,6 +192,8 @@ def CreateBible_Unicode(language, bible, book="b", chapter="c", verse="v",
                     vtext = escapeString(Verse.text)
                 else:
                     vtext = Verse.text
+                if emptyVerse:
+                    if vtext == None: vtext = ''
                 sql = "INSERT INTO {0} (book_id, chapter_id, verse_id, ".format(language)
                 if doubleQuotes:
                     sql = sql + "verse) VALUES ({0}, {1}, {2}, \""
@@ -202,6 +212,21 @@ def CreateBible_Unicode(language, bible, book="b", chapter="c", verse="v",
     connection.commit()
     cursor.close()
     del tree
+
+def escapeString2(verse, escape='double'):
+    if escape == 'single':
+        if "'" in verse:
+            return replace(verse, "'", "''")
+    elif escape == 'double':
+        if '"' in verse:
+            return replace(verse, '"', '""')
+    elif escape == 'both':
+        x = verse
+        if "'" in verse:
+            x = replace(verse, "'", "''")
+        if '"' in verse:
+            x = replace(x, '"', '""')
+        return x
 
 def escapeString(verse):
     if '"' in verse:
@@ -243,6 +268,7 @@ def CreateBible(bibleName, xmlPath, book='b', chapter='c', verse='v', bname='n',
     del tree
 
 def setupBibleDatabase():
+    #TODO: Recompile Older English Bibles with proper escape and double quotes
     CreateBooksTable()
     InsertEngBooks()
     CreateBible('kjv', KJV_Bible_XML)
@@ -269,18 +295,35 @@ def setupBibleDatabase():
     AddBooks(ARABIC_XML,'arabic', alter=True)
     CreateBible_Unicode('arabic', ARABIC_XML, bname='bnumber', cname='cnumber',
                         vname='vnumber')
-    CreateBible_Unicode('persian', PERSIAN_XML, escape=True)
-    CreateBible_Unicode('dari', DARI_XML, escape=True)
+    CreateBible_Unicode('persian', PERSIAN_XML, doubleQuotes=True)
+    CreateBible_Unicode('dari', DARI_XML, doubleQuotes=True)
     AddBooks(RUSSIAN_XML,'russian', alter=True)
     CreateBible_Unicode('russian', RUSSIAN_XML)
     # AddBooks(RUSSIAN_SYN_XML,'rus_synodal', alter=True)  #  -- Duplicate Rus
     CreateBible_Unicode('rus_synodal', RUSSIAN_SYN_XML, bname='bnumber',
                         cname='cnumber', vname='vnumber')
     AddBooks_FromTree(PORTUGUESE_XML,'portuguese', 'b', alter=True)
-    CreateBible_Unicode('portuguese', PORTUGUESE_XML, escape=True)
+    CreateBible_Unicode('portuguese', PORTUGUESE_XML, escape=True, doubleQuotes=True)
     AddBooks(SPANISH_LBLA_XML,'spanish_lbla', alter=True)
     CreateBible_Unicode('spanish_lbla', SPANISH_LBLA_XML, escape=True,
                         doubleQuotes=True)
+    #AddBooks_FromTree(SPANISH_REINA_XML,'spanish_reina', 'b', alter=True)
+    CreateBible_Unicode('spanish_reina', SPANISH_REINA_XML, escape=True,
+                        doubleQuotes=True)
+    #AddBooks(SPANISH_1909_XML,'spanish_1909', alter=True)
+    CreateBible_Unicode('spanish_1909', SPANISH_1909_XML, escape=True,
+                        doubleQuotes=True)
+    CreateBible_Unicode('african_amharic', AFRICAN_AMHARIC_XML, bname='bnumber',
+                        cname='cnumber', vname='vnumber', emptyVerse=True)
+    AddBooks(AFRICAN_SOHANA_XML,'african_sohana', alter=True)
+    CreateBible_Unicode('african_sohana', AFRICAN_SOHANA_XML, escape=True,
+                        doubleQuotes=True)
+    CreateBible_Unicode('african_ndebele', AFRICAN_NDEBELE_XML, escape=True,
+                        doubleQuotes=True)
+    AddBooks(FRENCH_LSG_XML,'french_lsg', alter=True)
+    CreateBible_Unicode('french_lsg', FRENCH_LSG_XML, bname='bnumber',
+                         cname='cnumber', vname='vnumber', doubleQuotes=True)
+    # CreateBible_Unicode('french_darby', FRENCH_DARBY_XML, doubleQuotes=True, emptyVerse=True)
 
 if __name__ == '__main__':
     setupBibleDatabase()

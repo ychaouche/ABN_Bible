@@ -49,7 +49,13 @@ class abn_bible(wx.Frame):
                             'Russian',
                             'Russian Synodal Version',
                             'Portuguese',
-                            'La Biblia de las Americas (Spanish)']
+                            'La Biblia de las Americas (Spanish)',
+                            'Reina Valera (Spanish)',
+                            'Reina Valera 1909 (Spanish)',
+                            'Amharic (African)',
+                            'Sohana (African)',
+                            'Ndebele (African)',
+                            'Louis Segond (French)']
         self.cb_Bibles = wx.Choice(self, wx.ID_ANY, wx.DefaultPosition,
                                    wx.DefaultSize, cb_BiblesChoices, 0)
         self.cb_Bibles.SetSelection(0)
@@ -208,6 +214,18 @@ class abn_bible(wx.Frame):
             self.results = find(search_term, 'portuguese')
         elif choice == 22:
             self.results = find(search_term, 'spanish_lbla')
+        elif choice == 23:
+            self.results = find(search_term, 'spanish_reina')
+        elif choice == 24:
+            self.results = find(search_term, 'spanish_1909')
+        elif choice == 25:
+            self.results = find(search_term, 'african_amharic')
+        elif choice == 26:
+            self.results = find(search_term, 'african_sohana')
+        elif choice == 27:
+            self.results = find(search_term, 'african_ndebele')
+        elif choice == 28:
+            self.results = find(search_term, 'french_lsg')
         if '-' in search_term:
             self.multi = True
             if self.results:

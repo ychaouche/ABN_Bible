@@ -220,6 +220,7 @@ def escapeString2(verse, escape='double'):
     elif escape == 'double':
         if '"' in verse:
             return replace(verse, '"', '""')
+        else: return verse
     elif escape == 'both':
         x = verse
         if "'" in verse:
@@ -236,7 +237,7 @@ def escapeString(verse):
     else: return verse
 
 def CreateBible(bibleName, xmlPath, book='b', chapter='c', verse='v', bname='n',
-                cname='n', vname='n'):
+                cname='n', vname='n', escapeType='double'):
     connection, cursor = GetDBCursor()
     tree = xml.parse(xmlPath)
     KJV_Books = list(tree.iter(book))
@@ -256,7 +257,7 @@ def CreateBible(bibleName, xmlPath, book='b', chapter='c', verse='v', bname='n',
                     #print bibleName, Bname, Cno, Vno
                     sql = "INSERT INTO {4} (book_id, chapter_id, verse_id, verse) "\
                       """VALUES ({0}, {1}, {2}, "{3}");""".format(i+1, Cno, Vno,
-                                                                  escapeString(Verse.text),
+                                                                  escapeString2(Verse.text, escapeType),
                                                                   bibleName)
                     cursor.execute(sql)
                 except Exception as e:
@@ -323,7 +324,6 @@ def setupBibleDatabase():
     AddBooks(FRENCH_LSG_XML,'french_lsg', alter=True)
     CreateBible_Unicode('french_lsg', FRENCH_LSG_XML, bname='bnumber',
                          cname='cnumber', vname='vnumber', doubleQuotes=True)
-    # CreateBible_Unicode('french_darby', FRENCH_DARBY_XML, doubleQuotes=True, emptyVerse=True)
 
 if __name__ == '__main__':
     setupBibleDatabase()

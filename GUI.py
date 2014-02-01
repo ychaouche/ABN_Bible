@@ -7,7 +7,7 @@ from Database import find
 class abn_bible(wx.Frame):
     def __init__(self, parent):
         wx.Frame.__init__(self, parent, id=wx.ID_ANY,
-                          title=u"Angel Broadcasting Network Bible 0.2.3rc1",
+                          title=u"Angel Broadcasting Network Bible 0.2.5rc1",
                           pos=wx.DefaultPosition, size=wx.Size(600, 800),
                           style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
 
